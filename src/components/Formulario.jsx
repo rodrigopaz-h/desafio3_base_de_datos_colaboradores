@@ -11,7 +11,6 @@ export const Formulario = ({ handleErrors, agregarColaborador }) => {
     cargo: "",
     telefono: "",
   });
-  const [mensaje, setMensaje] = useState("");
 
   const isAnyFieldEmptyOrNull = (obj) => {
     for (let key in obj) {
@@ -59,7 +58,6 @@ export const Formulario = ({ handleErrors, agregarColaborador }) => {
         cargo: "",
         telefono: "",
       });
-      setMensaje("Colaborador agregado exitosamente");
     }
   };
 
