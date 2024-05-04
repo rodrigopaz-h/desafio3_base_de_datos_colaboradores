@@ -1,9 +1,8 @@
 import { Table, Button } from 'react-bootstrap';
-import { BaseColaboradores } from './BaseColaboradores';
 
 export const Listado = ({BaseColaboradores, eliminarColaborador }) => {
   return (
-    <Table striped bordered hover>
+    <Table striped bordered hover responsive="md">
       <thead>
         <tr>
           <th>#</th>

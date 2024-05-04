@@ -12,11 +12,10 @@ export const Buscador = ({ buscarColaborador }) => {
   return (
     <Form>
       <Form.Group controlId="filtro">
-        <Form.Label>Buscar colaborador</Form.Label>
         <Form.Control
           type="text"
           value={filtro}
-          placeholder="Buscar por nombre, correo, edad, cargo o teléfono"
+          placeholder="Buscar un colaborador"
           onChange={handleChange}
         />
       </Form.Group>

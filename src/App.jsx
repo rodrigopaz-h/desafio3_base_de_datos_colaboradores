@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
+import { Titulo } from "./components/Titulo";
+import { Formulario } from "./components/Formulario";
+import { Listado } from "./components/Listado";
+import { Buscador } from "./components/Buscador";
+import BaseColaboradoresData from "./assets/data/BaseColaboradores";
+
 import "./App.css";
-import { Titulo } from './components/Titulo';
-import { Formulario } from './components/Formulario';
-import { Listado } from './components/Listado';
-import { Buscador } from './components/Buscador';
 
 function App() {
-  const [BaseColaboradores, setBaseColaboradores] = useState([]);
+  const [BaseColaboradores, setBaseColaboradores] = useState(BaseColaboradoresData);
   const [filteredData, setFilteredData] = useState([]);
 
   const handleAgregarColaborador = (newColaborador) => {
@@ -21,24 +27,27 @@ function App() {
     const value = event.target.value.toLowerCase();
     setFilteredData(
       BaseColaboradores.filter((colaborador) =>
-        Object.values(colaborador).some((field) =>
-          field.toLowerCase().includes(value)
-        )
+        Object.values(colaborador).some((field) => field.toLowerCase().includes(value))
       )
     );
   };
 
   return (
-    <>
-      <div className="container">
-        <Titulo />
-        <Formulario agregarColaborador={handleAgregarColaborador} />
-      </div>
-      <div className='list' >
-        <Buscador buscarColaborador={handleBuscarColaborador} />
-        <Listado BaseColaboradores={BaseColaboradores} eliminarColaborador={handleEliminarColaborador} />
-        </div>  
-    </>
+    <Container>
+      <Titulo />
+      <Row>
+        <Col md={8}>
+          <Buscador buscarColaborador={handleBuscarColaborador} />
+          <Listado
+            BaseColaboradores={BaseColaboradores}
+            eliminarColaborador={handleEliminarColaborador}
+          />
+        </Col>
+        <Col md={4}>
+          <Formulario agregarColaborador={handleAgregarColaborador} />
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
