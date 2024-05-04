@@ -1,21 +1,31 @@
 import React, { useState } from "react";
+import { Titulo } from "./Titulo";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 export const Formulario = ({ handleErrors, agregarColaborador }) => {
-  const [nombre, setNombre] = useState("");
-  const [correo, setCorreo] = useState("");
-  const [edad, setEdad] = useState("");
-  const [cargo, setCargo] = useState("");
-  const [telefono, setTelefono] = useState("");
+  const [form, setForm] = useState({
+    nombre: "",
+    correo: "",
+    edad: "",
+    cargo: "",
+    telefono: "",
+  });
   const [mensaje, setMensaje] = useState("");
+
+  const isAnyFieldEmptyOrNull = (obj) => {
+    for (let key in obj) {
+      if (obj[key] === "" || obj[key] === null) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const onSubmit = (event) => {
     event.preventDefault();
 
     const regexCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    const { nombre, email, edad, cargo, telefono } = event.target;
 
     const dictionary = {
       requiredData: {
@@ -32,95 +42,96 @@ export const Formulario = ({ handleErrors, agregarColaborador }) => {
       },
     };
 
-    const errorMessages =
-      !nombre.value || !email.value || !edad.value || !cargo.value || !telefono.value
-        ? dictionary.requiredData
-        : !regexCorreo.test(email.value)
-        ? dictionary.invalidEmail
-        : dictionary.success;
+    const errorMessages = isAnyFieldEmptyOrNull(form)
+      ? dictionary.requiredData
+      : !regexCorreo.test(form.correo)
+      ? dictionary.invalidEmail
+      : dictionary.success;
 
     handleErrors(errorMessages);
 
-    if (errorMessages === dictionary.success) {
-      agregarColaborador({
-        nombre: nombre.value,
-        correo: email.value,
-        edad: edad.value,
-        cargo: cargo.value,
-        telefono: telefono.value,
+    if (errorMessages?.color === "success") {
+      agregarColaborador(form);
+      setForm({
+        nombre: "",
+        correo: "",
+        edad: "",
+        cargo: "",
+        telefono: "",
       });
-      setNombre("");
-      setCorreo("");
-      setEdad("");
-      setCargo("");
-      setTelefono("");
       setMensaje("Colaborador agregado exitosamente");
     }
   };
 
+  const onChange = (event) => {
+    const { name, value } = event.target;
+
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
   return (
-    <Form onSubmit={onSubmit}>
-      <Form.Group className="mb-3">
-        <Form.Control
-          type="text"
-          placeholder="Nombre del colaborador"
-          name="nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-        />
-      </Form.Group>
+    <>
+      <Titulo tag={<h3>Agregar colaborador</h3>} />
+      <Form onSubmit={onSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Control
+            type="text"
+            placeholder="Nombre del colaborador"
+            name="nombre"
+            value={form.nombre}
+            onChange={onChange}
+          />
+        </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Control
-          type="email"
-          placeholder="Email del colaborador"
-          name="email"
-          value={correo}
-          onChange={(e) => setCorreo(e.target.value)}
-        />
-      </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Control
+            type="email"
+            placeholder="Email del colaborador"
+            name="correo"
+            value={form.correo}
+            onChange={onChange}
+          />
+        </Form.Group>
 
-      <Form.Group className="mb-3">
-        <Form.Control
-          type="number"
-          placeholder="Edad del colaborador"
-          name="edad"
-          value={edad}
-          onChange={(e) => setEdad(e.target.value)}
-        />
-      </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Control
+            type="number"
+            placeholder="Edad del colaborador"
+            name="edad"
+            value={form.edad}
+            onChange={onChange}
+          />
+        </Form.Group>
 
-      <Form.Group className="mb-3">
-        <Form.Control
-          type="text"
-          placeholder="Cargo del colaborador"
-          name="cargo"
-          value={cargo}
-          onChange={(e) => setCargo(e.target.value)}
-        />
-      </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Control
+            type="text"
+            placeholder="Cargo del colaborador"
+            name="cargo"
+            value={form.cargo}
+            onChange={onChange}
+          />
+        </Form.Group>
 
-      <Form.Group className="mb-3">
-        <Form.Control
-          type="tel"
-          placeholder="Teléfono del colaborador"
-          name="telefono"
-          value={telefono}
-          onChange={(e) => setTelefono(e.target.value)}
-        />
-      </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Control
+            type="tel"
+            placeholder="Teléfono del colaborador"
+            name="telefono"
+            value={form.telefono}
+            onChange={onChange}
+          />
+        </Form.Group>
 
-      <div className="d-grid">
-        <Button
-          variant="primary"
-          type="submit"
-          onClick={() => console.log("Botón 'Agregar colaborador' clickeado")}
-        >
-          Agregar colaborador
-        </Button>
-      </div>
-
-      {mensaje && <p>{mensaje}</p>}
-    </Form>
+        <div className="d-grid">
+          <Button variant="primary" type="submit">
+            Agregar colaborador
+          </Button>
+        </div>
+      </Form>
+    </>
   );
 };

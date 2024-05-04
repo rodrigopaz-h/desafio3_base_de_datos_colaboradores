@@ -1,11 +1,10 @@
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button } from "react-bootstrap";
 
-export const Listado = ({BaseColaboradores, eliminarColaborador }) => {
+export const Listado = ({ BaseColaboradores, eliminarColaborador }) => {
   return (
     <Table striped bordered hover responsive="md">
       <thead>
         <tr>
-          <th>#</th>
           <th>Nombre</th>
           <th>Correo</th>
           <th>Edad</th>
@@ -17,7 +16,6 @@ export const Listado = ({BaseColaboradores, eliminarColaborador }) => {
       <tbody>
         {BaseColaboradores.map((colaborador, index) => (
           <tr key={index}>
-            <td>{index + 1}</td>
             <td>{colaborador.nombre}</td>
             <td>{colaborador.correo}</td>
             <td>{colaborador.edad}</td>
