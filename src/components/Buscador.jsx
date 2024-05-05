@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import Form from 'react-bootstrap/Form';
+import React from "react";
+import Form from "react-bootstrap/Form";
 
-export const Buscador = ({ buscarColaborador }) => {
-  const [filtro, setFiltro] = useState('');
-
+export const Buscador = ({ buscarColaborador, filtro, setFiltro }) => {
   const handleChange = (e) => {
     setFiltro(e.target.value);
     buscarColaborador(e.target.value);
@@ -12,11 +10,10 @@ export const Buscador = ({ buscarColaborador }) => {
   return (
     <Form>
       <Form.Group controlId="filtro">
-        <Form.Label>Buscar colaborador</Form.Label>
         <Form.Control
           type="text"
           value={filtro}
-          placeholder="Buscar por nombre, correo, edad, cargo o teléfono"
+          placeholder="Buscar un colaborador"
           onChange={handleChange}
         />
       </Form.Group>
